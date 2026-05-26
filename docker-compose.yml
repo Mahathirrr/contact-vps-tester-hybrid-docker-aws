@@ -1,0 +1,54 @@
+# ============================================
+# Docker Compose - Hybrid Docker on AWS EC2
+# Services: backend, frontend, nginx (reverse proxy)
+# ============================================
+
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: contact-hybrid-docker-backend
+    restart: unless-stopped
+    mem_limit: 400m
+    env_file:
+      - ./backend/.env
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: contact-hybrid-docker-frontend
+    restart: unless-stopped
+    mem_limit: 100m
+    networks:
+      - app-net
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:alpine
+    container_name: contact-hybrid-docker-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - app-net
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  app-net:
+    driver: bridge

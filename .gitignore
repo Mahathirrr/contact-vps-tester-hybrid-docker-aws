@@ -1,0 +1,30 @@
+# Environment
+.env
+.env.production
+backend/.env
+frontend/.env
+
+# Node.js
+node_modules/
+*.log
+npm-debug.log*
+
+# Docker
+docker-compose.override.yml
+
+# Build
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
