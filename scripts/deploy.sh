@@ -2,7 +2,7 @@
 set -euo pipefail
 
 APP_DIR="/home/ubuntu/app"
-BRANCH="master"
+BRANCH="main"
 
 echo "=========================================="
 echo "🚀 Hybrid Docker Deploy Starting"

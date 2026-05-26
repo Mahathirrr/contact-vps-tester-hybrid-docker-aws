@@ -2,7 +2,7 @@ name: Deploy — Hybrid Docker (EC2 + Docker Compose)
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
